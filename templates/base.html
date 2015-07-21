@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html lang="de">
+    <head>
+        {% block head %}
+	<meta charset="utf-8">
+	<meta  name="viewport" content="width=device-width, initial-scale=1" >
+        <title>{% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="/static/style.css" type="text/css"/>
+		<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+		{% endblock %}
+    </head>
+	{% with messages = get_flashed_messages() %}
+		{% if messages %}
+			<ul>
+			{% for message in messages %}
+				<li class="a">{{ message }}</li>
+			{% endfor %}
+			</ul>
+		{% endif %}
+	{% endwith %}
+    <body>
+		<div id="container">
+        <div id="main"> {% block content %}{% endblock %} </div>
+		</div>
+    </body>
+
+</html>

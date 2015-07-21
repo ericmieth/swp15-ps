@@ -1,0 +1,128 @@
+###############################################################################
+#
+# alle eingetragenen Studiengänge
+#
+###############################################################################
+SELECT ?studiengang 
+WHERE {
+	?studiengangEntry rdf:type <http://od.fmi.uni-leipzig.de/model/Studiengang>.
+	?studiengangEntry rdfs:label ?studiengang.
+} ORDER BY ASC(?studiengang)
+
+
+
+###############################################################################
+#
+# alle Veranstaltungen mit Zeiten und wer sie ausführt zu
+# - einem bestimmten Studiengang
+# - einem bestimmten Semesterjahr
+# leider ist hier nur SPARQL 1.0 unterstützt, sodass REGEX benutzt werden muss
+#
+###############################################################################
+SELECT distinct ?LVlabel ?LVdayOfWeek ?LVbeginsAt ?LVendsAt ?LVservedBy
+WHERE {
+	?studiengang od:toStudiengang <http://od.fmi.uni-leipzig.de/studium/Inf.Bachelor>. #für die URI hier den URI zu dem ausgewählten Studiengang einsetzen 
+	?studiengang rdfs:label ?studiengangLabel.
+	FILTER REGEX(?studiengangLabel, ".*2") #für 2 das Semesterjahr einsetzen
+	?modul od:toStudiengangSemester ?studiengang.
+	?unit od:relatedModule ?modul.
+	?unit od:containsKurs ?kurs.
+	?kurs od:containsLV ?LV.
+	?LV rdf:type <http://od.fmi.uni-leipzig.de/model/Vorlesung>. #bei Übung dann "/Uebung"
+	FILTER REGEX(?LV, ".*s15.*") #für s15 das Semester einsetzen (i.e. Wintersemester 15/16 ==> w15)
+	?LV rdfs:label ?LVlabel.
+	?LV od:beginsAt ?LVbeginsAt.
+	?LV od:endsAt ?LVendsAt.
+	?LV od:servedBy ?LVservedBy. #sieht so aus als ob wir das parsen müssen (nicht jeder ist ordentlich eingetragen)
+	?LV od:dayOfWeek ?LVdayOfWeek.
+} ORDER BY ASC(?studiengangLabel)
+
+###############################################################################
+#
+# alle Module zu
+# - einem bestimmten Studiengang
+# - einem bestimmten Semesterjahr
+# - im aktuellen Semester (z.B. SS15)
+# leider ist hier nur SPARQL 1.0 unterstützt, sodass REGEX benutzt werden muss
+#
+###############################################################################
+SELECT distinct ?modulLabel
+WHERE {
+	?studiengang od:toStudiengang <http://od.fmi.uni-leipzig.de/studium/Inf.Bachelor>. #für die URI hier den URI zu dem ausgewählten Studiengang einsetzen 
+	?studiengang rdfs:label ?studiengangLabel.
+	FILTER REGEX(?studiengangLabel, ".*2") #für 2 das Semesterjahr einsetzen
+	?modul od:toStudiengangSemester ?studiengang.
+	?modul rdfs:label ?modulLabel.
+	?unit od:relatedModule ?modul.
+	?unit od:containsKurs ?kurs.
+	?kurs od:containsLV ?LV.
+	?LV rdf:type <http://od.fmi.uni-leipzig.de/model/LV>
+	FILTER REGEX(?LV, ".*s15.*") #für s15 das Semester einsetzen (i.e. Wintersemester 15/16 ==> w15)
+} ORDER BY ASC(?modulLabel)
+
+###############################################################################
+#
+# alle Module im aktuellen Semester (z.B. SS15)
+# leider ist hier nur SPARQL 1.0 unterstützt, sodass REGEX benutzt werden muss
+#
+###############################################################################
+SELECT distinct ?modulLabel
+WHERE {
+	?modul rdfs:label ?modulLabel.
+	?unit od:relatedModule ?modul.
+	?unit od:containsKurs ?kurs.
+	?kurs od:containsLV ?LV.
+	?LV rdf:type <http://od.fmi.uni-leipzig.de/model/LV>
+	FILTER REGEX(?LV, ".*s15.*") #für s15 das Semester einsetzen (i.e. Wintersemester 15/16 ==> w15)
+} ORDER BY ASC(?modulLabel)
+
+
+###############################################################################
+#
+# alle Veranstaltungen mit Zeiten und wer sie ausführt zu
+# - zu bestimmten Modulen
+# - einem bestimmten Semesterjahr
+# 
+# Benutze für die hintereinanderausführung beliebig viele UNION
+#
+###############################################################################
+SELECT distinct ?LVlabel ?LVdayOfWeek ?LVbeginsAt ?LVendsAt ?LVservedBy ?typLabel
+WHERE {
+	?unit od:relatedModule ?modul.
+	FILTER( ?modul IN (
+		<http://od.fmi.uni-leipzig.de/studium/10-201-2006>, 
+		<http://od.fmi.uni-leipzig.de/studium/10-201-2005-2>, 
+		<http://od.fmi.uni-leipzig.de/studium/10-201-2001-2>))
+	?unit od:containsKurs ?kurs.
+	?kurs od:containsLV ?LV.
+	?LV rdf:type <http://od.fmi.uni-leipzig.de/model/LV>
+	FILTER REGEX(?LV, ".*s15.*") #für s15 das Semester einsetzen (i.e. Wintersemester 15/16 ==> w15)
+	?LV rdfs:label ?LVlabel.
+	?LV od:beginsAt ?LVbeginsAt.
+	?LV od:endsAt ?LVendsAt.
+	?LV od:servedBy ?LVservedBy. #sieht so aus als ob wir das parsen müssen (nicht jeder ist ordentlich eingetragen)
+	?LV od:dayOfWeek ?LVdayOfWeek.
+	?LV rdf:type ?typ.
+	FILTER(?typ != <http://od.fmi.uni-leipzig.de/model/LV>)
+	?typ rdfs:label ?typLabel.
+}
+
+
+
+
+###############################################################################
+#
+# Wichtige Informationen (Startzeit, Endzeit, Ort)
+# - zu bestimmten Veranstaltungen
+#
+###############################################################################
+SELECT distinct ?LV ?LVlabel ?LVstart ?LVend ?LVort ?LVweek
+WHERE {
+?LV rdfs:label ?LVlabel.
+?LV od:beginsAt ?LVstart.
+?LV od:endsAt ?LVend.
+?LV od:locatedAt ?LVort.
+?LV od:servedBy ?LVservedBy.
+?LV od:hasTimeConstraint ?LVweek.
+FILTER(?LV IN (<http://od.fmi.uni-leipzig.de/s15/Inf.MuP-2.1>, <http://od.fmi.uni-leipzig.de/s15/Inf.MuP-2.4a>)) # Komma-separierte Liste in den inneren Klammern
+}

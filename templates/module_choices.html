@@ -1,0 +1,66 @@
+
+{% extends "base.html" %}
+{%from "_formhelpers.html" import render_field, render_button%}
+{% block title %}
+	Modulwahl
+{% endblock %}
+{% block content %}
+	<h1 class="trennung">Mo&shy;du&shy;le wäh&shy;len</h1>
+	<p>
+	<!--explanation of the webpage-->
+	<br>Hier kann man zusätzliche Module wählen.<br>
+	Sie befinden sich hier auf der Seite für die Auswahl ihrer Module. 
+	Auf dieser Seite finden sie drei Listen. 
+	<br>
+	In der linken Liste finden sie alle Module, die in ihrem gewählten Semester von der Fakultät angeboten werden. 
+	<br>
+	Die Liste in der Mitte zeigt Ihnen alle Module, die für ihren Studiengang empfohlen wurden. 
+	<br>
+	In der rechten Liste finden Sie Module, die für Ihr Semester empfohlen sind, schon ausgewählt vor. 
+	<br>
+	Um Module auszuwählen, klicken Sie die Checkbox für das entsprechende Modul an. 
+	Bestätigen sie Ihre Auswahl mit dem „Weiter“-Button.
+	<br>
+	</p>
+	<p>
+	You are here on the page for the selection of their modules. 
+	On this page you will find three lists. 
+	<br>
+	In the left list you can find all modules which are recommended in your chosen semester. 
+	<br>
+	The list in the middle shows all modules that have been recommended for your degree program.
+	<br>
+	In the right list, see modules that are offered by the Faculty. 
+	<br>
+	To select modules, click on the checkbox for the corresponding module. 
+	<br>
+	Confirm your selection with the "Weiter" button.
+	</p><br><br>
+
+<!-- Displays modules for the chosen semester-->
+<form action="{{ url_for('module_choices') }}" method="post">
+	<table class="none">				
+		<tr class="none">
+			<td class="none">
+				<!--shows all recommended modules for this semester-->
+				<div id="holder">
+					<div id="text">Empfohlene Module</div>
+					<div id="box">{{ render_field(form.choosen_modules) }}</div>
+				</div>
+				<!-- shows other modules for this course of study-->
+				<div id="holder">
+					<div id="text">Module aus dem Studiengang</div>
+					<div id="box">{{ render_field(form.study_course_modules) }}</div>
+				</div>
+				<!-- shows all modules that are available-->
+				<div id="holder">
+					<div id="text">Alle Module der Fakultät</div>
+					<div id="box">{{ render_field(form.all_modules) }}</div></div>
+				<!-- go to the next page after selecting required modules-->
+				</td>
+			</tr>
+		</table> 
+		{{ form.hidden_tag() }}  
+		{{ render_button(form.cont) }} 
+</form>
+{% endblock %}

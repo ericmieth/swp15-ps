@@ -1,0 +1,32 @@
+
+{% extends "base.html" %}
+{% block title %}
+    Semester
+{% endblock %}
+{% block content %}
+
+	<!--third webpage created, option to select an actual semester-->
+	<h1 class="trennung">Semesterwahl</h1>
+	<br><br>
+	<p>
+		Sie befinden sich hier auf der Seite für die Auswahl ihres Semesters.
+		<br>
+		Bitte wählen Sie aus der Liste ihr Semester aus
+		und bestätigen sie Ihre Wahl mit „Weiter“.
+		<br>
+	</p>
+	<p>
+		You are here on the page for the selection of your semester. 
+		<br>
+		Please select from the list her semester and confirm your choice with "Weiter".
+	</p>
+	<form action="{{ url_for('add_default_modules') }}" method="post">
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<select name="semester">
+	{% for nummer in semester %}
+		<option value="{{ nummer }}"> {{ nummer }} </option>
+	{% endfor %}
+	</select>
+		<br><br>
+	<input type="submit" value="Weiter" />
+	</form>
+{% endblock %}

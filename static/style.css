@@ -1,0 +1,129 @@
+body {
+        font-family: Helvetica, Times New Roman, sans-serif;
+        background-image: none;
+        background-color: gray;
+		margin: 0px;
+}
+h1 {
+        font-family: "Trebuchet MS";
+        font-size: 40px;
+} 
+
+h2 {
+        font-family: "Times New Roman";
+        font-size: 16px;
+        font-style: normal;      
+}
+
+ul{
+    list-style: none;   
+	padding: 0px;
+}
+li.liste {
+	list-style: none;
+}
+p{
+    -ms-word-break: break-all;
+    word-break: break-all;
+    
+    word-break: break-word;
+    
+    hyphens: auto;   
+    -moz-hyphens: auto; // silbentrennung fuer firefox
+    -webkit-hyphens: auto; // silbentrenung fuer safari
+    -ms-hyphens: auto; // silbentrennung fuer internet explorer 10 und 11
+}
+dd {
+	margin-left:0px;
+}
+.trennung{
+    hyphens: auto;   
+    -moz-hyphens: auto; // silbentrennung fuer firefox
+    -webkit-hyphens: auto; // silbentrenung fuer safari
+    -ms-hyphens: auto; // silbentrennung fuer internet explorer 10 und 11
+}
+
+#container {
+		margin-left: 8px;
+		padding: 30px;
+		widht: 100%;
+		
+}
+#main {      
+		width: 97%;
+        padding: 15px;
+        background-color: rgba(255, 255, 255, 0.9);
+}
+#text {
+		/*width: 400px;*/
+		height: 30px;
+		padding: 10px;
+		margin: 40px;
+		margin-bottom: 0px;
+		background-color: transparent;
+
+}
+#box {
+		/*width: 400px;*/
+		min-width: 120px;
+		height: 500px;
+		padding: 10px;
+		margin: 40px;
+		margin-top: 0px;
+		background-color: transparent;
+		overflow: scroll;
+		overflow-x: hidden;
+		overflow-y: auto;
+		border: 1px solid rgba(0,0,0,0.5);
+}
+#holder {
+		width: 70%;
+}
+table{ 
+	border: 1px solid black; 
+}
+td,th{
+	min-width: 50px;
+	border: 1px solid black;
+}
+.none{
+	border: none;	
+}
+.doppelt {
+	background-color: yellow;
+}
+
+li.a:nth-child(2n+1) {
+	width: 100%;
+	padding: 5px;
+	margin: 0px;
+	list-style: none;
+	background-color: rgba(8,130,195,1.0);
+}
+li.a:nth-child(2n) {
+	width: 100%;
+	padding: 5px;
+	margin: 0px;
+	list-style: none;
+	background-color: rgba(122,197,239,1.0);
+}
+
+@media screen and (min-width: 1200px) {
+	#box {
+		/*width: 400px;*/
+		min-width: 100px;
+		height: 500px;
+		padding: 10px;
+		margin: 40px;
+		margin-top: 0px;
+		background-color: transparent;
+		overflow: scroll;
+		overflow-x: hidden;
+		overflow-y: auto;
+		border: 1px solid rgba(0,0,0,0.5);
+	}
+	#holder {
+		float: left;
+		width: 30%;
+	}
+}

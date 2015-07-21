@@ -1,0 +1,36 @@
+
+{% extends "base.html" %}
+{%from "_formhelpers.html" import render_field, render_button%}
+{% block title %}
+	LV-Wahl
+{% endblock %}
+{% block content %}
+
+	<h1 class="trennung">Lehrveranstaltung wählen</h1>
+	<p>
+	<!--explanation of the webpage-->
+	<br>Sie befinden sich hier auf der Seite für die Auswahl der Termine Ihrer ausgewählten Module. 
+	<br>Um einen Termin für einen Kurs auszuwählen, klicken Sie bitte die entsprechenden Checkboxen an
+	<br>und bestätigen sie die Auswahl über den „Weiter“-Button.
+	
+	<br><br>
+	<br>You are here on the page to select the dates of your selected modules.  
+	<br>To select a date for a course, please click on the appropriate checkboxes
+	<br>and confirm your selection via the "Weiter" button.
+	</p>
+
+	<!--displays all events for the modules in seperated lists to choose from-->
+	<form action="{{ url_for('lv_choice') }}" method="post">
+		{{ form.hidden_tag() }}
+		{% for modulform in form if modulform.widget.input_type != 'hidden' %}
+			{% if modulform.type not in ('SubmitField') %}
+		<li class="liste">
+			{{ modulform.label }}
+			{{ render_field(modulform.course) }}
+			{{ modulform.hidden_tag() }}
+		</li>
+		{% endif %}
+		{% endfor %}
+	{{ render_button(form.cont) }}
+	</form>
+{% endblock %}

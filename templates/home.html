@@ -1,0 +1,55 @@
+
+{% extends "base.html" %}
+{% block title %}
+	Startseite
+{% endblock %}
+{% block content %}
+    <h1 class="trennung">Willkommen</h1>
+<!--first created webpage, with an introduction-->
+    <p>
+	Herzlich willkommen auf den Seiten des Projektes für die personalisierten 
+        Stundenpläne 
+        <br>
+        der Fakultät für Mathematik und Informatik an der Universität Leipzig!
+        <br>
+        Auf den folgenden Seiten können sie sich Ihren persönlichen Stundenplan 
+        zusammenstellen,
+        <br>
+        der sich nach Ihrem Studiengang und Semester richtet. 
+        Bevor Sie sich Ihren Stundenplan zusammenstellen,
+        <br>
+        erfolgt hier noch eine
+        kurze Erläuterung zur Nutzung:
+        <br>
+        Auf jeder der folgen Websites werden sie aufgefordert werden bestimmte 
+        Eingaben zu machen. 
+        <br>
+        Dies beginnt mit der Eingabe ihres Studienganges 
+        über eine Liste und führt bis hin zum 
+        <br>Download-Button auf der letzten
+        Seite. Für die korrekte Nutzung ist es dabei wichtig, 
+        <br>
+        dass sie wahrheitsgemäße Angaben machen, was Ihren Studiengang und Ihr 
+        Semester betrifft.
+        <br><br>
+        Welcome to the pages of the project for personalized timetables of the Faculty of 
+		<br>Mathematics and Computer Science at the University of Leipzig!	
+		<br>
+		On the following pages you can put together your personal schedule, 
+		<br>which depends on your degree program and semester. 
+		<br>Before you put together your timetable, takes place here is a brief explanation of the use:
+		<br>
+		At each of the sites followed they will be asked to make certain entries. 
+		<br>
+		This starts with the input of your degree program over a list 
+		<br>
+		and leads through to the download button on the last page.
+		<br>
+		For correct use, it is important that they give accurate information 
+		<br>
+		when it comes to your degree program and your semester.
+
+	<br><br><br>
+	<a href="{{ url_for('study_choice') }}"><button type="button">Weiter</button></a>
+    </p>
+{% endblock %}

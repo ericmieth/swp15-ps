@@ -1,0 +1,68 @@
+
+{% extends "base.html" %}
+{% from "_formhelpers.html" import render_field %}
+{% block title %}
+Kalendervorschau
+{% endblock %}
+{% block content %}
+<!--Creates a webpage, where all choices are displayed in a calendar format-->
+    <h1 class="trennung">Kalendervorschau</h1>
+    <br><br>
+    <p>
+	Sie befinden sich hier auf der Seite für die Ansicht ihrer ausgewählten Termine. 
+	<br>
+	Hier haben Sie die Möglichkeit, ihren Kalender als Datei herunter zu laden
+	<br>
+	und in Ihr persönliches Kalenderprogramm zu integrieren		
+	<br><br>
+	You are here on the side for showing your selected dates. 
+	<br>
+	Here you have the possibility to load your calendar downloaded as a file
+	<br>
+	and integrate it into your personal calendar application.	
+    </p>
+    <table>
+	<th>Zeit</th>{% for weekday in weekdays[0:7] %} <th> {{weekday}} </th> {% endfor %}
+	{% for slotname, line in lines %}
+		<tr>
+			<td> {{ slotname }} </td>
+			{% for timeslot in line[0:7] %}
+			{% if timeslot|length > 1%} 
+				<td class="doppelt">
+			{% else %}
+				<td>
+			{% endif %}
+				{% for titel, start, end, room in timeslot %}
+			
+					{{ titel }} von {{ start }} bis {{ end }} in Raum {{room}}<br><br>
+				{% endfor %}
+			</td>
+			{% endfor %}
+	{% endfor %}
+	</table>
+	<br>
+	<table>
+	<th>Zeit</th>{% for weekday in weekdays[7:14] %} <th> {{weekday}} </th> {% endfor %}
+	{% for slotname, line in lines %}
+		<tr>
+			<td> {{ slotname }} </td>
+			{% for timeslot in line[7:14] %}
+			{% if timeslot|length > 1 %}
+				<td class="doppelt">
+			{% else %}
+				<td>
+			{% endif %}
+				{% for titel, start, end, room in timeslot %}
+			
+					{{ titel }} von {{ start }} bis {{ end }} in Raum {{room}}<br><br>
+				{% endfor %}
+			</td>
+			{% endfor %}
+	{% endfor %}
+	</table>
+	<br><br>
+	<a href="{{ url_for('calendar_download')}}"><button
+			type="button">Download</button></a>
+	<a href="/module_choices"><button type="button">zur Auswahl
+		</button></a>
+{% endblock %}

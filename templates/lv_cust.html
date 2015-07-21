@@ -1,0 +1,38 @@
+
+{% extends "base.html" %}
+{%from "_formhelpers.html" import render_field, render_button%}
+{% block title %}
+	LV-Anpassung
+{% endblock %}
+{% block content %}
+<h1 class="trennung">Lehrveranstaltungen überprüfen</h1>
+<p>
+	<br>Auf dieser Seite haben sie die Möglichkeit, die Enddaten ihrer gewählten Module zu verändern. 
+	<br>Für jedes Modul ist dabei schon das standardmäßige Enddatum eingetragen. 
+	<br>Um diese Daten zu ändern, tragen sie ihre gewünschten Daten in Zahlen in der Form: JAHR-MONAT-TAG ein. 
+	<br>Denken sie dabei bitte auch daran, die einstelligen Werte mit einer „0“ davor anzugeben
+	<br>und bestätigen sie die Auswahl über den „Weiter“-Button. 
+	
+	<br><br>
+	<br>On this page you will have the opportunity to change the end date of their chosen modules.
+	<br>Here, the default end date is already entered for each module. 
+	<br>To change this information, they carry their desired data in numbers in the form: year-month-day a. 
+	<br>Also note, before that specify the single-digit values with a "0" and confirm your selection via the "Weiter" button.	
+</p>
+<!--displays all course choices with an enddate to configure-->
+<form action="{{ url_for('lv_cust') }}" method="post">
+	{{ form.hidden_tag() }}
+	<ul>
+	{% for lvform in form if lvform.widget.input_type != 'hidden' %}
+		{% if lvform.type not in ('SubmitField') %}
+			<li class="liste">
+			{{ lvform.label }}
+			{{ render_field(lvform.enddate) }}
+			{{ lvform.hidden_tag() }}
+			</li>
+		{% endif %}
+	{% endfor %}
+	</ul>
+	{{ render_button(form.cont) }}
+</form>
+{% endblock %}

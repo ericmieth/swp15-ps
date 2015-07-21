@@ -1,0 +1,28 @@
+
+{% extends "base.html" %}
+{% from "_formhelpers.html" import render_field %}
+{% block title %}
+   Studiengang
+{% endblock %}
+{% block content %}
+<!--second webpage, option to choose your course of studies-->
+	<h1 class="trennung">Studiengangwahl</h1>
+	<br><br>
+	<p>
+		Sie befinden sich hier auf der Seite für die Auswahl ihres Studienganges.
+		<br>
+		Bitte wählen Sie aus der Liste ihren Studiengang aus
+		und bestätigen sie Ihre Wahl mit „Weiter“.
+	</p>
+	<p>
+		You are here on the page for the selection of your degree program. 
+		<br>
+		Please select your degree program from the list, and confirm your choice with "Weiter".
+	</p>
+	<form action="{{ url_for('semester_choice') }}" method="post">
+	{{ render_field(form.course) }}
+	{{ form.hidden_tag() }}
+	<br><br>
+		<input class="button" type="submit" value="Weiter" />
+	</form>
+{% endblock %}
